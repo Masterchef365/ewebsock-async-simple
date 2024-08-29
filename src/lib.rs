@@ -5,6 +5,7 @@ use std::{
     task::{Context, Poll, Waker},
 };
 
+pub use ewebsock;
 use ewebsock::{WsReceiver, WsSender};
 use futures_util::{Sink, Stream};
 
