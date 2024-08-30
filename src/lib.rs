@@ -76,14 +76,14 @@ impl Remote {
 }
 
 impl Stream for Sock {
-    type Item = Vec<u8>;
+    type Item = Result<Vec<u8>, Infallible>;
     fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
         let mut buf = self.buf.lock().unwrap();
         if buf.rx.is_empty() {
             buf.wakers.push(cx.waker().clone());
             Poll::Pending
         } else {
-            Poll::Ready(Some(buf.rx.remove(0)))
+            Poll::Ready(Some(Ok(buf.rx.remove(0))))
         }
     }
 }
